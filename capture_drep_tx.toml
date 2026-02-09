@@ -1,0 +1,38 @@
+# Oura config to capture the specific block containing DRep registration transaction
+# Transaction: f2a876d1fe74675432a359d717ebf33489185f0ab6397be42c115432b3c15cc6
+# Block: 12606014
+
+[source]
+type = "N2N"
+peers = ["relays-new.cardano-mainnet.iohk.io:3001"]
+
+
+[intersect]
+# Start from the specific block containing our DRep registration
+type = "Point"
+value = [133807495, "06e4e71b7cce1f5abe033fe6a6e8aff55c7fe210e8387c4f4f18da910cf33da3"]
+
+# Process just a few blocks around this point
+[finalize]
+max_block_slot = 133807507  # Stop after processing a few blocks
+
+# Split blocks into individual transactions
+[[filters]]
+type = "SplitBlock"
+
+# Parse CBOR to get structured data  
+[[filters]]
+type = "ParseCbor"
+
+# Convert to JSON for inspection
+[[filters]]
+type = "IntoJson"
+
+# Log to stdout so we can examine the structure
+[sink]
+type = "FileRotate"
+output_path = "mainnet.json"
+output_format = "JSONL"
+max_bytes_per_file = 1_000_000
+max_total_files = 10
+compress_files = true

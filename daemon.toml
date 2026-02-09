@@ -1,0 +1,38 @@
+[source]
+type = "N2N"
+peers = ["preprod-node.world.dev.cardano.org:30000"]
+
+[sink]
+type = "Webhook"
+url = "https://endpoint:5000/events" #webhook endpoint
+authorization = "user:pass"
+timeout = 30000
+error_policy = "Continue"
+
+[chain]
+type = "preprod"
+
+[intersect]
+type = "Tip"
+
+[[filters]]
+type = "SplitBlock"
+
+[[filters]]
+type = "ParseCbor"
+
+[[filters]]
+type = "Select"
+skip_uncertain = false
+
+[filters.predicate.match.metadata]
+label = 674
+
+[filters.predicate.match.metadata.value.text]
+regex = ".*Hello World.*"
+
+[sink]
+type = "Kafka"
+brokers = ["kafka:29092"]
+topic = "ada_pay_txs"
+ack_timeout_secs = 10

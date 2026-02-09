@@ -1,0 +1,19 @@
+
+networks:
+  oura-network:
+    driver: bridge
+
+services:
+  # Oura service
+  oura:
+    image: registry.2lovelaces.io/lidonation/lidonation/oura
+    container_name: oura-daemon
+    volumes:
+      - ./daemon.toml:/etc/oura/daemon.toml:ro
+    networks:
+      - oura-network
+    depends_on:
+      kafka-setup:
+        condition: service_completed_successfully
+    command: ["daemon", "--config", "/etc/oura/daemon.toml"]
+    restart: unless-stopped

@@ -21,7 +21,7 @@ u5c = ["utxorpc", "futures"]
 mithril = ["mithril-client"]
 hydra = ["tungstenite", "tokio-tungstenite", "futures-util", "bytes"]
 # elasticsearch = auto feature flag
-# kafka = auto feature flag
+kafka = ["dep:kafka"]
 
 [dependencies]
 pallas = { version = "0.33", features = ["hardano"] }
