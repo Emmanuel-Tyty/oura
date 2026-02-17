@@ -6,7 +6,7 @@ mod dump;
 mod run_daemon;
 mod watch;
 
-#[derive(Parser)]
+#[derive(Parser, Debug)]
 #[clap(name = "Oura")]
 #[clap(bin_name = "oura")]
 #[clap(author, version, about, long_about = None)]
@@ -18,6 +18,7 @@ enum Oura {
 
 fn main() {
     let args = Oura::parse();
+    println!("Result: {args:?}");
 
     let result = match args {
         Oura::Daemon(x) => run_daemon::run(&x),
